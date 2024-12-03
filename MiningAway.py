@@ -29,7 +29,7 @@ def main():
     nb.fit(attColumns, classColumn)
     
     # create a KNN object
-    knn = KNeighborsClassifier(n_neighbors = 5)
+    knn = KNeighborsClassifier(n_neighbors = 90)
     knn.fit(attColumns, classColumn)
     
     
