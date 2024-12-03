@@ -43,7 +43,10 @@ def main():
     nbPredict = nb.predict(testData)
     knnPredict = knn.predict(testData)
     
+    print(nbPredict)
+    
     # create array of chosen class based on majority voting
+    '''
     majorityPredict = []
     for i in range(len(dtPredict)):
         # if two 1's found, append 1, else append 0
@@ -51,14 +54,14 @@ def main():
             majorityPredict.append(1)
         else:
             majorityPredict.append(0)
-            
+    '''
     # create array to convert to CSV
     output = [["id", "CLASS_LABEL"]]
-    for i in range(len(dtPredict)):
-        output.append([testDataOG[i, 0], dtPredict[0]])
+    for i in range(len(nbPredict)):
+        output.append([testDataOG[i, 0], nbPredict[i]])
     
     # write out to the CSV file
-    with open("DClineHW14Results.csv", mode = "w", newline = "") as file:
+    with open("results.csv", mode = "w", newline = "") as file:
         writer = csv.writer(file)
         writer.writerows(output)
     
