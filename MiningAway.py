@@ -4,6 +4,7 @@ import csv
 from sklearn import tree
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 
 
 def main():
@@ -32,6 +33,10 @@ def main():
     knn = KNeighborsClassifier(n_neighbors = 9)
     knn.fit(attColumns, classColumn)
     
+    # create logistic regression object
+    regress = LogisticRegression(solver="liblinear", random_state=0)
+    regress.fit(attColumns, classColumn)
+    
     
     # Read in the testing data
     testDF = pd.read_csv("Phishing_Legitimate_TestWithoutClass.csv")
@@ -42,6 +47,8 @@ def main():
     dtPredict = dt.predict(testData)
     nbPredict = nb.predict(testData)
     knnPredict = knn.predict(testData)
+    regressPredict = regress.predict(testData)
+    
     
     print(nbPredict)
     
@@ -50,7 +57,7 @@ def main():
     majorityPredict = []
     for i in range(len(dtPredict)):
         # if two 1's found, append 1, else append 0
-        if(dtPredict[i] + nbPredict[i] + knnPredict[i] >=2):
+        if(dtPredict[i] + regressPredict[i] + knnPredict[i] >=2):
             majorityPredict.append(1)
         else:
             majorityPredict.append(0)
