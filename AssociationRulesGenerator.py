@@ -38,3 +38,5 @@ class_label_1_rules = rules[rules['consequents']== {'CLASS_LABEL'}]
 #Print the association rules for CLASS_LABEL = 1 
 with pd.option_context('display.max_rows',None, 'display.max_columns', None):
     print(class_label_1_rules)
+
+class_label_1_rules.to_csv("foundRules.csv")
