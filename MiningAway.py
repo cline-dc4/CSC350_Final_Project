@@ -37,7 +37,7 @@ def main():
     
     # create a NB object and fit
     nb = GaussianNB()
-    nb.fit(normalAttColumns, classColumn)
+    nb.fit(attColumns, classColumn)
     
     # create a KNN object
     knn = KNeighborsClassifier(n_neighbors = 9)
@@ -59,7 +59,7 @@ def main():
     testDataNormal = testDataOG[:, 1:len(testDF.columns)]
     # run the test set through the classifiers
     dtPredict = dt.predict(testData)
-    nbPredict = nb.predict(testDataNormal)
+    nbPredict = nb.predict(testData)
     knnPredict = knn.predict(testDataNormal)
     regressPredict = regress.predict(testDataNormal)
     
@@ -70,7 +70,7 @@ def main():
     majorityPredict = []
     for i in range(len(dtPredict)):
         # if two 1's found, append 1, else append 0
-        if(dtPredict[i] + regressPredict[i] + associationPredict[i] >=2):
+        if(dtPredict[i] + knnPredict[i] + nbPredict[i] + regressPredict[i] + associationPredict[i] >=3):
             majorityPredict.append(1)
         else:
             majorityPredict.append(0)
