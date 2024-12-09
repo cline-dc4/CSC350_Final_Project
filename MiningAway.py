@@ -63,15 +63,14 @@ def main():
     knnPredict = knn.predict(testDataNormal)
     regressPredict = regress.predict(testDataNormal)
     
-    
-    print(nbPredict)
+    # Association Rule - Pull out column FrequentDomainNameMismatch and use it as the class column.
+    associationPredict = np.array(testDF.FrequentDomainNameMismatch)
     
     # create array of chosen class based on majority voting
-    
     majorityPredict = []
     for i in range(len(dtPredict)):
         # if two 1's found, append 1, else append 0
-        if(dtPredict[i] + regressPredict[i] + knnPredict[i] >=2):
+        if(dtPredict[i] + nbPredict[i] + regressPredict[i] + knnPredict[i] + associationPredict[i] >=3):
             majorityPredict.append(1)
         else:
             majorityPredict.append(0)
