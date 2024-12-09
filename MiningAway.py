@@ -37,7 +37,7 @@ def main():
     
     # create a NB object and fit
     nb = GaussianNB()
-    nb.fit(attColumns, classColumn)
+    nb.fit(normalAttColumns, classColumn)
     
     # create a KNN object
     knn = KNeighborsClassifier(n_neighbors = 9)
@@ -45,7 +45,7 @@ def main():
     
     # create logistic regression object
     regress = LogisticRegression(solver="liblinear", random_state=0)
-    regress.fit(normalAttColumns, classColumn)
+    regress.fit(attColumns, classColumn)
     
     
     # Read in the testing data
@@ -59,9 +59,9 @@ def main():
     testDataNormal = testDataOG[:, 1:len(testDF.columns)]
     # run the test set through the classifiers
     dtPredict = dt.predict(testData)
-    nbPredict = nb.predict(testData)
+    nbPredict = nb.predict(testDataNormal)
     knnPredict = knn.predict(testDataNormal)
-    regressPredict = regress.predict(testDataNormal)
+    regressPredict = regress.predict(testData)
     
     # Association Rule - Pull out column FrequentDomainNameMismatch and use it as the class column.
     associationPredict = np.array(testDF.FrequentDomainNameMismatch)
