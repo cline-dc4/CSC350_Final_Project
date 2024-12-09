@@ -9,45 +9,59 @@ from sklearn.linear_model import LogisticRegression
 
 def main():
 
-    # Read in the data from a file
-    trainingDF = pd.read_csv("Phishing_Legitimate_Training.csv")
+    # Read in the decision tree data from a file
+    DTDF = pd.read_csv("csv_files/Phishing_Legitimate_Training.csv")
     
     # store the number of columns as a variable
-    numColumns = len(trainingDF.columns)
+    numColumns = len(DTDF.columns)
     # create a numpy array from the data set
-    phishingData = np.array(trainingDF)
+    phishingData = np.array(DTDF)
     # get our attribute columns from the numpy array
     attColumns = np.array(phishingData[:, 1:numColumns - 1])
     # get our class column from the numpy array
     classColumn = np.array(phishingData[:, numColumns - 1])
-
+    
+    # Read in the normalized data from a file
+    NormalDF = pd.read_csv("csv_files/Phishing_Legitimate_Training_Normal.csv")
+    
+    # store the number of columns as a variable
+    numColumns = len(NormalDF.columns)
+    # create a numpy array from the data set
+    phishingData = np.array(NormalDF)
+    # get our attribute columns from the numpy array
+    normalAttColumns = np.array(phishingData[:, 1:numColumns - 1])
+    
     # create a decision tree object and fit
     dt = tree.DecisionTreeClassifier(max_depth=15)
     dt.fit(attColumns, classColumn)
     
     # create a NB object and fit
     nb = GaussianNB()
-    nb.fit(attColumns, classColumn)
+    nb.fit(normalAttColumns, classColumn)
     
     # create a KNN object
     knn = KNeighborsClassifier(n_neighbors = 9)
-    knn.fit(attColumns, classColumn)
+    knn.fit(normalAttColumns, classColumn)
     
     # create logistic regression object
     regress = LogisticRegression(solver="liblinear", random_state=0)
-    regress.fit(attColumns, classColumn)
+    regress.fit(normalAttColumns, classColumn)
     
     
     # Read in the testing data
-    testDF = pd.read_csv("Phishing_Legitimate_TestWithoutClass.csv")
+    testDF = pd.read_csv("csv_files/Phishing_Legitimate_TestWithoutClass.csv")
     testDataOG = np.array(testDF)
     testData = testDataOG[:, 1:len(testDF.columns)]
     
+    # Read in the normal testing data
+    testDF = pd.read_csv("csv_files/Phishing_Legitimate_TestWithoutClass_Normal.csv")
+    testDataOG = np.array(testDF)
+    testDataNormal = testDataOG[:, 1:len(testDF.columns)]
     # run the test set through the classifiers
     dtPredict = dt.predict(testData)
-    nbPredict = nb.predict(testData)
-    knnPredict = knn.predict(testData)
-    regressPredict = regress.predict(testData)
+    nbPredict = nb.predict(testDataNormal)
+    knnPredict = knn.predict(testDataNormal)
+    regressPredict = regress.predict(testDataNormal)
     
     
     print(nbPredict)
@@ -68,7 +82,7 @@ def main():
         output.append([testDataOG[i, 0], majorityPredict[i]])
     
     # write out to the CSV file
-    with open("results.csv", mode = "w", newline = "") as file:
+    with open("csv_files/results.csv", mode = "w", newline = "") as file:
         writer = csv.writer(file)
         writer.writerows(output)
     
