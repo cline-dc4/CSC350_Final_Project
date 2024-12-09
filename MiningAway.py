@@ -32,7 +32,7 @@ def main():
     normalAttColumns = np.array(phishingData[:, 1:numColumns - 1])
     
     # create a decision tree object and fit
-    dt = tree.DecisionTreeClassifier(max_depth=15)
+    dt = tree.DecisionTreeClassifier()
     dt.fit(attColumns, classColumn)
     
     # create a NB object and fit
@@ -70,7 +70,7 @@ def main():
     majorityPredict = []
     for i in range(len(dtPredict)):
         # if two 1's found, append 1, else append 0
-        if(dtPredict[i] + nbPredict[i] + regressPredict[i] + knnPredict[i] + associationPredict[i] >=3):
+        if(dtPredict[i] + regressPredict[i] + associationPredict[i] >=2):
             majorityPredict.append(1)
         else:
             majorityPredict.append(0)
