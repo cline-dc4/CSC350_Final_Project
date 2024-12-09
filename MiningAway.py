@@ -22,7 +22,7 @@ def main():
     classColumn = np.array(phishingData[:, numColumns - 1])
 
     # create a decision tree object and fit
-    dt = tree.DecisionTreeClassifier()
+    dt = tree.DecisionTreeClassifier(max_depth=15)
     dt.fit(attColumns, classColumn)
     
     # create a NB object and fit
