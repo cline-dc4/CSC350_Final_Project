@@ -70,7 +70,7 @@ def main():
     majorityPredict = []
     for i in range(len(dtPredict)):
         # if two 1's found, append 1, else append 0
-        if(dtPredict[i]*1.01 + nbPredict[i] + associationPredict[i] *0.99 + knnPredict[i] + regressPredict[i] >=3):
+        if(dtPredict[i]*1.01 + nbPredict[i] + associationPredict[i] *0.99 + knnPredict[i] + regressPredict[i] >= 3):
             majorityPredict.append(1)
         else:
             majorityPredict.append(0)
